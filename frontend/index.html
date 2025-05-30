@@ -36,7 +36,17 @@
             <button type="submit" aria-label="메시지 전송">전송</button>
         </form>
 
-        <div id="result" class="result-box" role="alert" aria-live="polite"></div>
+        <!-- 에러 메시지를 위한 별도의 alert 영역 -->
+        <div id="error-message" role="alert" class="error-box" hidden></div>
+
+        <!-- 스트리밍 응답을 위한 polite 영역 -->
+        <div
+            id="result"
+            class="result-box"
+            role="log"
+            aria-live="polite"
+            aria-label="AI 응답"
+        ></div>
     </main>
 
     <script type="module" src="./chat.js"></script>

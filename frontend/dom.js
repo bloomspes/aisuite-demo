@@ -1,14 +1,20 @@
+const resultBox = document.getElementById("result");
+
 export function appendChunk(text) {
-  const resultBox = document.getElementById("result");
   resultBox.textContent += text;
 }
 
 export function showError(message) {
   const resultBox = document.getElementById("result");
-  resultBox.innerHTML = `<div class="error">${message}</div>`;
+  resultBox.textContent = '';
+
+  const errorDiv = document.createElement('div');
+
+  errorDiv.className = 'error';
+  errorDiv.textContent = message;
+  resultBox.appendChild(errorDiv)
 }
 
 export function clearOutput() {
-  const resultBox = document.getElementById("result");
   resultBox.textContent = "";
 }

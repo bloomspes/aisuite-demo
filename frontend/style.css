@@ -113,6 +113,16 @@ button:disabled {
   margin-top: 0.5rem;
 }
 
+.error-box {
+    color: var(--danger);
+    background: rgb(239 68 68 / 0.1);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    margin-top: 1rem;
+    border: 1px solid var(--danger);
+}
+
 .helper-text {
     display: block;
     margin-top: 0.5rem;
