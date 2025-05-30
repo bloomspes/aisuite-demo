@@ -1,23 +1,18 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 
 from app.schemas.request import ChatRequest
-from app.services.llm_router import get_llm_response_stream
-from app.core.exceptions import LLMServiceError
+from app.services.llm_router import call_with_fallback
+from app.utils.streaming import sse_format, stream_as_sse
 
-import logging
+router = APIRouter(prefix="/chat")
 
+@router.post("/stream")
+async def stream_chat(request: Request, chat: ChatRequest):
+    if not chat.message:
+        def error_stream():
+            yield "data: ❗ 메시지가 비어있습니다.\n\n"
+        return StreamingResponse(error_stream(), media_type="text/event-stream")
 
-router = APIRouter()
-
-@router.post("/chat")
-async def chat(request: ChatRequest):
-    """채팅 요청을 처리하고 스트리밍 응답을 반환합니다."""
-    try:
-        stream = await get_llm_response_stream(request.vendor, request.message)
-        return StreamingResponse(stream, media_type="text/event-stream")
-    except LLMServiceError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        logging.log.error(f"Chat stream error: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail="Internal server error")
+    generator = call_with_fallback(chat.message, chat.vendor, chat.session_id)
+    return await stream_as_sse(generator, request)

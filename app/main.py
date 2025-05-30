@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from app.routes import chat
 
 app = FastAPI()
 
@@ -11,6 +14,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-async def hello():
-    return {"message": "Hello, from LLM Router!"}
+app.include_router(chat.router)
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")

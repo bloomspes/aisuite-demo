@@ -1,6 +1,7 @@
-from typing import Literal
+from typing import Optional
 from pydantic import BaseModel
 
 class ChatRequest(BaseModel):
-    vendor: Literal["openai", "anthropic"]
+    vendor: Optional[str] = ""
     message: str
+    session_id: Optional[str] = None

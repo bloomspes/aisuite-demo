@@ -1,28 +1,23 @@
-import { appendChunk, showError, clearOutput } from "./dom.js";
-
 const form = document.getElementById("chat-form");
-const resultBox = document.getElementById("result");
-
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const vendor = document.getElementById("vendor").value;
   const message = document.getElementById("message").value.trim();
-  if (!message) {
-    showError("메시지를 입력해주세요.");
-    return;
+  const resultBox = document.getElementById("result");
+  resultBox.textContent = "";
+
+  const res = await fetch("/chat/stream", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ vendor, message }),
+  });
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    resultBox.textContent += decoder.decode(value);
   }
-
-  clearOutput();
-
-  const url = `/chat/stream?message=${encodeURIComponent(message)}`;
-  const eventSource = new EventSource(url);
-
-  eventSource.onmessage = (event) => {
-    appendChunk(event.data);
-  };
-
-  eventSource.onerror = () => {
-    showError("⚠️ 응답 중 오류가 발생했습니다.");
-    eventSource.close();
-  };
 });

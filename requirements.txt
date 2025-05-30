@@ -7,3 +7,4 @@ anthropic
 aisuite
 redis
 click
+docstring-parser
