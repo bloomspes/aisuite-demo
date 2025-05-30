@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="다양한 LLM 벤더의 실시간 응답을 테스트할 수 있는 데모 페이지입니다." />
+    <title>멀티 LLM 라우터 데모</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+    <main class="container">
+        <h1>🤖 LLM 멀티 벤더 데모</h1>
+        <form id="chat-form" aria-label="채팅 폼">
+            <div class="form-group">
+                <label for="vendor">AI 모델 선택: <small>(선택 안함 시 자동 선택)</small></label>
+                <select id="vendor" name="vendor">
+                    <option value="">자동 선택</option>
+                    <option value="openai">OpenAI GPT-4</option>
+                    <option value="anthropic">Anthropic Claude</option>
+                </select>
+                <small class="helper-text">시스템이 가용성과 목적에 맞는 모델을 선택합니다</small>
+            </div>
+
+            <div class="form-group">
+                <label for="message">메시지:</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    placeholder="질문을 입력하세요..."
+                    required
+                    aria-label="메시지 입력"
+                ></textarea>
+            </div>
+
+            <button type="submit" aria-label="메시지 전송">전송</button>
+        </form>
+
+        <div id="result" class="result-box" role="alert" aria-live="polite"></div>
+    </main>
+
+    <script type="module" src="./chat.js"></script>
+</body>
+</html>
