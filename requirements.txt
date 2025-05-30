@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sse-starlette
+python-dotenv
+openai
+anthropic
+aisuite
+redis
+click

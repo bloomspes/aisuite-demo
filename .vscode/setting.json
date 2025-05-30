@@ -1,0 +1,12 @@
+{
+    "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "/docs/copilot-chat-guide.md"
+    },
+    {
+      "file": "/docs/git-commit-message-guide.md"
+    }
+  ],
+  "python.analysis.extraPaths": ["./app"],
+  "python.defaultInterpreterPath": ".venv/bin/python"
+}
